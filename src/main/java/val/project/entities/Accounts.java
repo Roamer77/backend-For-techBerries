@@ -10,7 +10,6 @@ import java.util.List;
 public class Accounts {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-
     private Long id;
 
     private  String login;
@@ -39,6 +38,11 @@ public class Accounts {
     public Accounts() {
     }
 
+    public Accounts(String login, String password, String userPhoneNumber) {
+        this.login = login;
+        this.password = password;
+        this.userPhoneNumber = userPhoneNumber;
+    }
 
     public Long getId() {
         return id;

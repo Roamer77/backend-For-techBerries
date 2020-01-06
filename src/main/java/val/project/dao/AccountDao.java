@@ -5,4 +5,5 @@ import val.project.entities.Accounts;
 
 public interface AccountDao extends JpaRepository<Accounts,Long> {
     Accounts findAllById(long id);
+    Accounts findByLogin(String login);
 }

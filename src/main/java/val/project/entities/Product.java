@@ -48,7 +48,7 @@ public class Product {
 
     private int similaritiesIndex;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false ,cascade = CascadeType.DETACH)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JsonManagedReference
     private ProductCategories productCategories;
@@ -56,6 +56,9 @@ public class Product {
     @JsonIgnore
     @OneToOne(optional = false,cascade = CascadeType.ALL)
     private Images images;
+
+    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "products")
+    private List<UserOrder> orders;
 
     public Product() {
     }

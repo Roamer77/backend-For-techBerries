@@ -9,5 +9,5 @@ import java.util.List;
 public interface ProductCategoriesDao extends JpaRepository<ProductCategories,Long> {
 
     ProductCategories getAllByCategoryName(String categoryName);
-    ProductCategories getById(Long id);
+    ProductCategories getById(long id);
 }

@@ -24,7 +24,7 @@ public class ImageSendingController {
     //конвертнуть в json
     @PostMapping("/getListOfBigImage")
     public String getListOfBigImages(@RequestParam String productName){
-        imageConvertingService.chooseNecessaryProduct("Name1");
+        imageConvertingService.chooseNecessaryProduct(productName);
         String result="";
         Map<String,String> data=imageConvertingService.getListOfBigImages();
 
@@ -35,6 +35,23 @@ public class ImageSendingController {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+        System.out.println("Я уже отправил список больших картинок");
         return  "";
+    }
+
+    @GetMapping("/getListOfSmallImages")
+    public  String getListOfSmallImages(@RequestParam int categoryId){
+
+        String result="";
+        Map<String,String> data=imageConvertingService.getSmallImagesTEST(categoryId);
+
+        ObjectMapper objectMapper=new ObjectMapper();
+        try {
+            result=objectMapper.writeValueAsString(data);
+            return result;
+        }catch (JsonProcessingException e){
+            e.printStackTrace();
+        }
+        return "";
     }
 }

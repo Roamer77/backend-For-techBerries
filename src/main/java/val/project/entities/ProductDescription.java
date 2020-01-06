@@ -23,7 +23,7 @@ public class ProductDescription {
     private String season;
 
 
-    @OneToMany (mappedBy = "productDescription")
+    @OneToMany (mappedBy = "productDescription",cascade = CascadeType.DETACH)
    // @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JsonBackReference
     private List<Product> product;

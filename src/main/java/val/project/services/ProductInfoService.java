@@ -19,20 +19,22 @@ public class ProductInfoService {
 
     public  String getInfoAboutService(String productName){
         product=productDao.myFindProductByName(productName);
-        objectMapper=new ObjectMapper();
-        Map<String,String> data=new HashMap<>();
+        if(product!=null){
+            objectMapper=new ObjectMapper();
+            Map<String,String> data=new HashMap<>();
 
-        data.put("name",product.getName());
-        data.put("cost",String.valueOf(product.getCost()));
-        data.put("average Rating",String.valueOf(product.getAverageRating()));
-        data.put("vendor code",String.valueOf(product.getVendorCode()));
-        data.put("productCategory",product.getProductCategories().getCategoryName());
+            data.put("name",product.getName());
+            data.put("cost",String.valueOf(product.getCost()));
+            data.put("average Rating",String.valueOf(product.getAverageRating()));
+            data.put("vendor code",String.valueOf(product.getVendorCode()));
+            data.put("productCategory",product.getProductCategories().getCategoryName());
 
-        try {
-            String productInfo= objectMapper.writeValueAsString(data);
-            return productInfo;
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            try {
+                String productInfo= objectMapper.writeValueAsString(data);
+                return productInfo;
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
         }
         return "";
     }

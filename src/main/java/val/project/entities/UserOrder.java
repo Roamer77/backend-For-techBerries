@@ -1,6 +1,9 @@
 package val.project.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
 
 
 @Entity
@@ -9,14 +12,46 @@ public class UserOrder {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private  String TypeOfDelivery;
+    private String TypeOfDelivery;
     private String addressForCourier;
     private String TypeOfPayment;
+    private Integer fullPrice;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Accounts account;
 
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<Product> products;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "userOrder",fetch = FetchType.LAZY,optional = false)
+    private MailQueue orderMail;
+
     public UserOrder() {
+    }
+
+    public Integer getFullPrice() {
+        return fullPrice;
+    }
+
+    public void setFullPrice(Integer fullPrice) {
+        this.fullPrice = fullPrice;
+    }
+
+    public MailQueue getOrderMail() {
+        return orderMail;
+    }
+
+    public void setOrderMail(MailQueue orderMail) {
+        this.orderMail = orderMail;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
     public long getId() {
@@ -26,6 +61,7 @@ public class UserOrder {
     public void setId(long id) {
         this.id = id;
     }
+
 
     public String getTypeOfDelivery() {
         return TypeOfDelivery;
@@ -57,5 +93,18 @@ public class UserOrder {
 
     public void setAccount(Accounts account) {
         this.account = account;
+    }
+
+    @Override
+    public String toString() {
+        return "UserOrder{" +
+                "id=" + id +
+                ", TypeOfDelivery='" + TypeOfDelivery + '\'' +
+                ", addressForCourier='" + addressForCourier + '\'' +
+                ", TypeOfPayment='" + TypeOfPayment + '\'' +
+                ", fullPrice='" + fullPrice + '\'' +
+                ", account=" + account +
+                ", products=" + products +
+                '}';
     }
 }
