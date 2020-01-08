@@ -22,4 +22,6 @@ public interface ProductDao extends JpaRepository<Product, Long> {
 
     @Query("select p from Product p  where id in :list")
     List<Product> findAllProductsByListOfId(@Param("list") Collection<Long> idList);
+
+    List<Product> findAllByNameContainingIgnoreCase(String name);
 }

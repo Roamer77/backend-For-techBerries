@@ -15,9 +15,11 @@ public class MailTest {
     @GetMapping("/send")
     public  void sendSimpleMail(){
 
-        String to="jatgaret@gmail.com";
-        String subject="test SpringBoot mailing";
-        String text="Simple text for testing this shit";
-        mailSenderService.sendSimpleMail(to,subject,text);
+
+    }
+    @GetMapping("/test")
+    public  void test(){
+
+        mailSenderService.deleteTrashMails();
     }
 }

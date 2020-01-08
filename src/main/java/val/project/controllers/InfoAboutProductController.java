@@ -7,7 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import val.project.entities.Product;
 import val.project.services.ProductInfoService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/productInfo")
@@ -27,5 +31,14 @@ public class InfoAboutProductController {
         System.out.println("Я уже отправил инфу продукте");
 
         return res;
+    }
+
+    @GetMapping("/getProductsByName")
+    public List<Product> getProductsByName(@RequestParam String name){
+        List<Product> products=productInfoService.findProductsByName(name);
+        if(products!=null){
+            return products;
+        }
+        return new ArrayList<>();
     }
 }

@@ -43,7 +43,7 @@ public class ImageConvertingService {
 
     private String convertImageToBase64String(String imageName) {
 
-        String imageUrl = getAbsolutePathToFile(fileFolder,imageName);
+        String imageUrl = getAbsolutePathToFile(fileFolder, imageName);
 
         BufferedImage image;
         File fileName = new File(imageUrl);
@@ -82,26 +82,38 @@ public class ImageConvertingService {
         Collections.addAll(resData, imageBigSizeUrl1, imageBigSizeUrl2, imageBigSizeUrl3);
         return resData;
     }
-    private List<String> getAllSmallImagesURLs(ProductCategories productCategories){
-        List<Product> images=productDao.findAllByProductCategories(productCategories);
-        List<String> resData=new ArrayList<>();
-        for(Product image: images){
+
+    private List<String> getAllSmallImagesURLs(ProductCategories productCategories) {
+        List<Product> images = productDao.findAllByProductCategories(productCategories);
+        List<String> resData = new ArrayList<>();
+        for (Product image : images) {
             resData.add(image.getImages().getSmallSizeImage());
         }
         return resData;
     }
 
     //придумать нориальное название
-    private    Map<String,String> getFullInfo_test(ProductCategories productCategories){
-        Map<String,String> res=new HashMap<>();
-        List<Product> images=productDao.findAllByProductCategories(productCategories);
-        for(int i=0;i<images.size();i++){
-            res.put(images.get(i).getName(),convertImageToBase64String(images.get(i).getImages().getSmallSizeImage()));//ёюаный ад переписать
+    private Map<String, String> getFullInfo_test(ProductCategories productCategories) {
+        Map<String, String> res = new HashMap<>();
+        List<Product> images = productDao.findAllByProductCategories(productCategories);
+
+        for (int i = 0; i < images.size(); i++) {
+            res.put(images.get(i).getName(), convertImageToBase64String(images.get(i).getImages().getSmallSizeImage()));//ёюаный ад переписать
         }
         return res;
     }
 
-    private Map<String, String> convertListOfBigSizeImagesInBase64(List<String> urls,String jsonNameForImage) {
+    private Map<String, String> getImagesByName(String name) {
+        Map<String, String> res = new HashMap<>();
+        List<Product> images = productDao.findAllByNameContainingIgnoreCase(name);
+
+        for (int i = 0; i < images.size(); i++) {
+            res.put(images.get(i).getName(), convertImageToBase64String(images.get(i).getImages().getSmallSizeImage()));//ёюаный ад переписать
+        }
+        return res;
+    }
+
+    private Map<String, String> convertListOfBigSizeImagesInBase64(List<String> urls, String jsonNameForImage) {
         List<String> tmpListOfUrls = urls;
         Map<String, String> data = new HashMap<>();
         for (int i = 0; i < tmpListOfUrls.size(); i++) {
@@ -113,29 +125,34 @@ public class ImageConvertingService {
 
 
     public Map<String, String> getListOfBigImages() {
-        return convertListOfBigSizeImagesInBase64(getBigSizeImageURLs(),"big");
+        return convertListOfBigSizeImagesInBase64(getBigSizeImageURLs(), "big");
     }
 
     public String getSmallSizeImage() {
         return convertImageToBase64String(getSmallSizeImageURl());
     }
 
-    public  Map<String,String> getSmallImagesByCategory(int categoryId){
-       ProductCategories productCategory= productCategoriesDao.getById(categoryId);
-        return convertListOfBigSizeImagesInBase64(getAllSmallImagesURLs(productCategory),"small");
+    public Map<String, String> getSmallImagesByCategory(int categoryId) {
+        ProductCategories productCategory = productCategoriesDao.getById(categoryId);
+        return convertListOfBigSizeImagesInBase64(getAllSmallImagesURLs(productCategory), "small");
     }
 
     //тестовый
-    public  Map<String,String> getSmallImagesTEST(int categoryId){
-        ProductCategories productCategory= productCategoriesDao.getById(categoryId);
+    public Map<String, String> getSmallImagesTEST(int categoryId) {
+        ProductCategories productCategory = productCategoriesDao.getById(categoryId);
 
         return getFullInfo_test(productCategory);
     }
 
-    private String getAbsolutePathToFile(String fileFolder,String fileName) {
-        Path pasth = Paths.get(fileFolder+fileName);
+    public Map<String, String> getSmallImagesByName(String name) {
+
+        return getImagesByName(name);
+    }
+
+    private String getAbsolutePathToFile(String fileFolder, String fileName) {
+        Path pasth = Paths.get(fileFolder + fileName);
         Path res = pasth.toAbsolutePath();
-        String uri=res.toString().replace("\\","\\\\");
+        String uri = res.toString().replace("\\", "\\\\");
         System.out.println(uri);
         return uri;
     }

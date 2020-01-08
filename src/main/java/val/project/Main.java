@@ -5,6 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import val.project.MailUtil.MailSenderService;
 import val.project.dao.*;
 import val.project.dao.daosForTestTables.AlianDao;
 import val.project.dao.daosForTestTables.HumanDao;
@@ -52,6 +53,8 @@ public class Main implements CommandLineRunner {
     @Autowired
     ProductInfoService productInfoService;
 
+    @Autowired
+    MailSenderService senderService;
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
 

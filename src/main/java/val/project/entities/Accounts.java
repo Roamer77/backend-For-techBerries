@@ -23,6 +23,7 @@ public class Accounts {
     private String cityName;
     private String countryName;
     private  Integer personalDiscount;
+    private String mail;
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "account")
     private List<UserOrder> userOrders =new ArrayList<>();
@@ -48,6 +49,13 @@ public class Accounts {
         return id;
     }
 
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
 
     public String getLogin() {
         return login;

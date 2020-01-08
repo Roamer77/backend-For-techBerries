@@ -54,4 +54,21 @@ public class ImageSendingController {
         }
         return "";
     }
+
+
+    @GetMapping("/getListOfSmallImagesByName")
+    public  String getListOfSmallImagesByName(@RequestParam String name){
+
+        String result="";
+        Map<String,String> data=imageConvertingService.getSmallImagesByName(name);
+
+        ObjectMapper objectMapper=new ObjectMapper();
+        try {
+            result=objectMapper.writeValueAsString(data);
+            return result;
+        }catch (JsonProcessingException e){
+            e.printStackTrace();
+        }
+        return "";
+    }
 }

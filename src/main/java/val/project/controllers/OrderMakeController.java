@@ -38,9 +38,6 @@ public class OrderMakeController {
         return "Пусто";
     }
 
-    @GetMapping("/test")
-    public  String test(){
-        return "test";
-    }
+
 
 }
