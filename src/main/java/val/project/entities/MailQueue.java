@@ -9,7 +9,7 @@ public class MailQueue {
     @SequenceGenerator(sequenceName = "MAILQUEUE_ID",allocationSize = 1,name = "MAILQUEUE_ID")
     private long id;
 
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     private UserOrder userOrder;
 
     //1 - отправлен  2- ожидает

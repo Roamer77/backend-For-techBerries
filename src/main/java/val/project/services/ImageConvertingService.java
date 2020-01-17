@@ -3,6 +3,7 @@ package val.project.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import val.project.DTO.AdvertisingToClient;
 import val.project.dao.AdvertisingDAO;
 import val.project.dao.ImageDao;
 import val.project.dao.ProductCategoriesDao;
@@ -96,7 +97,6 @@ public class ImageConvertingService {
     private Map<String, String> getFullInfo_test(ProductCategories productCategories) {
         Map<String, String> res = new HashMap<>();
         List<Product> images = productDao.findAllByProductCategories(productCategories);
-
         for (int i = 0; i < images.size(); i++) {
             res.put(images.get(i).getName(), convertImageToBase64String(images.get(i).getImages().getSmallSizeImage()));//ёюаный ад переписать
         }
@@ -113,6 +113,23 @@ public class ImageConvertingService {
         return res;
     }
 
+    private List<AdvertisingToClient> makeSimpleAdvertising() {
+
+        List<Advertising> images = advertisingDao.findAll();
+        List<AdvertisingToClient> res = new ArrayList<>();
+
+        AdvertisingToClient advertisingToClient = new AdvertisingToClient();
+
+        for (int i = 0; i < images.size(); i++) {
+           /* advertisingToClient.setId(images.get(i).getId());
+            advertisingToClient.setAdvImage(convertImageToBase64String(images.get(i).getImageName()));*/
+            res.add(new AdvertisingToClient(images.get(i).getId(),convertImageToBase64String(images.get(i).getImageName()) ) );
+
+        }
+        System.out.println("reclamme"+res.toString());
+        return res;
+    }
+
     private Map<String, String> convertListOfBigSizeImagesInBase64(List<String> urls, String jsonNameForImage) {
         List<String> tmpListOfUrls = urls;
         Map<String, String> data = new HashMap<>();
@@ -123,6 +140,15 @@ public class ImageConvertingService {
         return data;
     }
 
+    private Map<String, String> makeSmallImagesByCategoryAndSex(String sex,Long categotyId){
+        Map<String, String> res = new HashMap<>();
+        List<Product> images = productDao.customfindAll(sex,categotyId);
+
+        for (int i = 0; i < images.size(); i++) {
+            res.put(images.get(i).getName(), convertImageToBase64String(images.get(i).getImages().getSmallSizeImage()));
+        }
+        return res;
+    }
 
     public Map<String, String> getListOfBigImages() {
         return convertListOfBigSizeImagesInBase64(getBigSizeImageURLs(), "big");
@@ -137,6 +163,10 @@ public class ImageConvertingService {
         return convertListOfBigSizeImagesInBase64(getAllSmallImagesURLs(productCategory), "small");
     }
 
+    public  Map<String, String> getSmallImagesByCategoryAndSex(String sex,Long categotyId){
+         return makeSmallImagesByCategoryAndSex(sex,categotyId);
+    }
+
     //тестовый
     public Map<String, String> getSmallImagesTEST(int categoryId) {
         ProductCategories productCategory = productCategoriesDao.getById(categoryId);
@@ -149,7 +179,12 @@ public class ImageConvertingService {
         return getImagesByName(name);
     }
 
-    private String getAbsolutePathToFile(String fileFolder, String fileName) {
+    public List<AdvertisingToClient> getSimpleAdvertising() {
+        return makeSimpleAdvertising();
+    }
+
+
+    public String getAbsolutePathToFile(String fileFolder, String fileName) {
         Path pasth = Paths.get(fileFolder + fileName);
         Path res = pasth.toAbsolutePath();
         String uri = res.toString().replace("\\", "\\\\");

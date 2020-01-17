@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div th:text="${title}"></div>
+    <div th:text="${description}"></div>
+
+    <table>
+        <tr>
+            <th>Название продукта</th>
+            <th>Цена</th>
+            <th>Картинка</th>
+        </tr>
+        <tr th:each="prod: ${products}">
+            <td th:text="${prod.getName()}"></td>
+            <td th:text="${prod.getCost()}"></td>
+            <td> <img th:src="|cid:${prod.getImages().getSmallSizeImage()}|" width="40" height="40"> </td>
+        </tr>
+    </table>
+
+</body>
+</html>

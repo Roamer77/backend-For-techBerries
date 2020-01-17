@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface UserOrderDao extends JpaRepository<UserOrder,Long> {
     UserOrder findById(long id);
-    
+    List<UserOrder> findAll();
 }

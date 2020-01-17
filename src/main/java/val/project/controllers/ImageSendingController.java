@@ -15,41 +15,41 @@ public class ImageSendingController {
     ImageConvertingService imageConvertingService;
 
     @PostMapping("/getSmallImage")
-    public String getSmallImage(@RequestParam String productName){
+    public String getSmallImage(@RequestParam String productName) {
         imageConvertingService.chooseNecessaryProduct(productName);
-        String resData=imageConvertingService.getSmallSizeImage();
+        String resData = imageConvertingService.getSmallSizeImage();
         return resData;
     }
 
     //конвертнуть в json
     @PostMapping("/getListOfBigImage")
-    public String getListOfBigImages(@RequestParam String productName){
+    public String getListOfBigImages(@RequestParam String productName) {
         imageConvertingService.chooseNecessaryProduct(productName);
-        String result="";
-        Map<String,String> data=imageConvertingService.getListOfBigImages();
+        String result = "";
+        Map<String, String> data = imageConvertingService.getListOfBigImages();
 
-        ObjectMapper objectMapper=new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
         try {
-            result=objectMapper.writeValueAsString(data);
+            result = objectMapper.writeValueAsString(data);
             return result;
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         System.out.println("Я уже отправил список больших картинок");
-        return  "";
+        return "";
     }
 
     @GetMapping("/getListOfSmallImages")
-    public  String getListOfSmallImages(@RequestParam int categoryId){
+    public String getListOfSmallImages(@RequestParam int categoryId) {
 
-        String result="";
-        Map<String,String> data=imageConvertingService.getSmallImagesTEST(categoryId);
+        String result = "";
+        Map<String, String> data = imageConvertingService.getSmallImagesTEST(categoryId);
 
-        ObjectMapper objectMapper=new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
         try {
-            result=objectMapper.writeValueAsString(data);
+            result = objectMapper.writeValueAsString(data);
             return result;
-        }catch (JsonProcessingException e){
+        } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         return "";
@@ -57,16 +57,30 @@ public class ImageSendingController {
 
 
     @GetMapping("/getListOfSmallImagesByName")
-    public  String getListOfSmallImagesByName(@RequestParam String name){
+    public String getListOfSmallImagesByName(@RequestParam String name) {
 
-        String result="";
-        Map<String,String> data=imageConvertingService.getSmallImagesByName(name);
+        String result = "";
+        Map<String, String> data = imageConvertingService.getSmallImagesByName(name);
 
-        ObjectMapper objectMapper=new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
         try {
-            result=objectMapper.writeValueAsString(data);
+            result = objectMapper.writeValueAsString(data);
             return result;
-        }catch (JsonProcessingException e){
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    @PostMapping("/getSmallImagesByCategoryAndSex")
+    public String getListOfImagesByCategoryAndSex(@RequestParam String sex, Long categotyId) {
+        String result = "";
+        Map<String, String> data = imageConvertingService.getSmallImagesByCategoryAndSex(sex, categotyId);
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            result = objectMapper.writeValueAsString(data);
+            return result;
+        } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         return "";

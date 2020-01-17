@@ -44,20 +44,18 @@ public class ProductInfoService {
         return "";
     }
 
-    public  String getProductDescriptionByName(String productName){
+    public  ProductDescriptionToClient getProductDescriptionByName(String productName){
         product=productDao.myFindProductByName(productName);
-        objectMapper=new ObjectMapper();
-        ProductDescription description=product.getProductDescription();
-        description.setId(product.getId());
-        try {
+        ProductDescriptionToClient descriptionToClient=new ProductDescriptionToClient();
+        ProductDescription  description=product.getProductDescription();
 
-            String productDescription= objectMapper.writeValueAsString(description);
-            logger.info("\n _______ prodictDescription serialize "+productDescription);
-            return productDescription;
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return "";
+        descriptionToClient.setCost(product.getCost());
+        descriptionToClient.setId((int) product.getId());
+        descriptionToClient.setSeason(description.getSeason());
+        descriptionToClient.setSex(description.getSex());
+        descriptionToClient.setSoleHeight(description.getSoleHeight());
+        descriptionToClient.setSoleMaterial(description.getSoleMaterial());
+        return descriptionToClient;
     }
 
     public List<Product> findProductsByName(String name){

@@ -58,7 +58,7 @@ public class OrderMakeService {
         logger.info("\n Заказ который сейчас сохранился "+order.toString());
         userOrderDao.save(order);
         userOrderDao.flush();
-        //addOderToMailQueue(order);
+        addOderToMailQueue(order);
     }
 
     private  void addOderToMailQueue(UserOrder userOrder){

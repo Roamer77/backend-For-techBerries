@@ -20,7 +20,7 @@ public class UserOrder {
     @ManyToOne(fetch = FetchType.LAZY)
     private Accounts account;
 
-    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Product> products;
 
     @JsonIgnore

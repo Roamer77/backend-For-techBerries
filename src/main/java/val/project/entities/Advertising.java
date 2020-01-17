@@ -37,4 +37,12 @@ public class Advertising {
     public void setImageName(String imageName) {
         this.imageName = imageName;
     }
+
+    @Override
+    public String toString() {
+        return "Advertising{" +
+                "id=" + id +
+                ", imageName='" + imageName + '\'' +
+                '}';
+    }
 }
