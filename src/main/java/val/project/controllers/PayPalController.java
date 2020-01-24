@@ -25,18 +25,14 @@ public class PayPalController {
         return payPalClient.doRedirect(redirectUrl);
     }
 
-    @GetMapping("/complete")
-    public Map<String, Object> completePayment(HttpServletRequest request){
-        return payPalClient.comparePayment(request);
-    }
-
     @GetMapping("/cancel")
     public String cancel(){
         return "Canceled";
     }
 
-    @GetMapping
-    public String conserved(){
+    @GetMapping("/success")
+    public String conserved(@RequestParam("paymentId") String paymentId,@RequestParam("PayerID") String payerID){
+        payPalClient.comparePayment(paymentId,payerID);
         return "Conserved!";
     }
 }

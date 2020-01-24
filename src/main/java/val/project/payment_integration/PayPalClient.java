@@ -40,8 +40,8 @@ public class PayPalClient {
         payment.setTransactions(transactions);
 
         RedirectUrls redirectUrls=new RedirectUrls();
-        redirectUrls.setCancelUrl("http://localhost:8080/payment/cancel");
-        redirectUrls.setReturnUrl("http://localhost:8080/payment/");
+        redirectUrls.setCancelUrl("http://192.168.59.1:8080/payment/cancel");
+        redirectUrls.setReturnUrl("http://192.168.59.1:8080/payment/success");
 
         payment.setRedirectUrls(redirectUrls);
 
@@ -67,13 +67,13 @@ public class PayPalClient {
         return response;
     }
 
-    public Map<String,Object> comparePayment(HttpServletRequest request){
+    public Map<String,Object> comparePayment(String paymentId,String payerId){
         Map<String ,Object > response=new HashMap<>();
         Payment payment=new Payment();
-        payment.setId(request.getParameter("paymentId"));
+        payment.setId(paymentId);
 
         PaymentExecution paymentExecution = new PaymentExecution();
-        paymentExecution.setPayerId(request.getParameter("PayerID"));
+        paymentExecution.setPayerId(payerId);
         try {
             APIContext context = new APIContext(clientID, clientSecret, "sandbox");
             Payment createdPayment = payment.execute(context, paymentExecution);
