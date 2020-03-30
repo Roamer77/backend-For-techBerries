@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import val.project.DTO.forProductCRUDops.ProductForAdding;
+import val.project.DTO.forProductCRUDops.UpdatedProductInfo;
 import val.project.dao.ProductDao;
 import val.project.entities.Product;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductsCrudService {
@@ -29,5 +31,11 @@ public class ProductsCrudService {
 
     public void saveProduct(ProductForAdding newProduct){
         addNewProductService.addNewProductToDB(newProduct);
+    }
+
+
+    private void updateProduct(UpdatedProductInfo newProductInfo){
+       long id = newProductInfo.getId();
+      Optional<Product> product = productDao.findById(id);
     }
 }
