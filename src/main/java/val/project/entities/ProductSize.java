@@ -1,12 +1,16 @@
 package val.project.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class ProductSize {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+
     private long Id;
 
     @Column(name = "SIZE_VALUE")
@@ -14,6 +18,9 @@ public class ProductSize {
     @Column(name = "LOCATION")
     private String location;
 
+    @ManyToOne
+    @JsonIgnore
+    private Product products;
 
     public ProductSize() {
     }
@@ -21,6 +28,14 @@ public class ProductSize {
     public ProductSize(int sizeValue, String location) {
         this.sizeValue = sizeValue;
         this.location = location;
+    }
+
+    public Product getProducts() {
+        return products;
+    }
+
+    public void setProducts(Product products) {
+        this.products = products;
     }
 
     public long getId() {

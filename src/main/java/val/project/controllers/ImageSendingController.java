@@ -4,8 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import val.project.DTO.ProductFroGridViewToClient;
 import val.project.services.ImageConvertingService;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -73,16 +75,8 @@ public class ImageSendingController {
     }
 
     @PostMapping("/getSmallImagesByCategoryAndSex")
-    public String getListOfImagesByCategoryAndSex(@RequestParam String sex, Long categotyId) {
-        String result = "";
-        Map<String, String> data = imageConvertingService.getSmallImagesByCategoryAndSex(sex, categotyId);
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            result = objectMapper.writeValueAsString(data);
-            return result;
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return "";
+    public  List<ProductFroGridViewToClient> getListOfImagesByCategoryAndSex(@RequestParam String sex, Long categotyId) {
+        List<ProductFroGridViewToClient> data = imageConvertingService.getSmallImagesByCategoryAndSex(sex, categotyId);
+        return data;
     }
 }

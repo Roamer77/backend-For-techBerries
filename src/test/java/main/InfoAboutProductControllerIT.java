@@ -18,6 +18,8 @@ import val.project.dao.AdvertisingDAO;
 import val.project.dao.ImageDao;
 import val.project.dao.ProductCategoriesDao;
 import val.project.dao.ProductDao;
+import val.project.services.AdminDashboardServices.ProductsCrudService;
+import val.project.services.AdminDashboardServices.UserCrudService;
 import val.project.services.ImageConvertingService;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
@@ -38,9 +40,26 @@ public class InfoAboutProductControllerIT {
     private InfoAboutProductController controller;
 
     @Autowired
+    private ProductsCrudService productsCrudService;
+
+    @Autowired
+    private UserCrudService userCrudService;
+
+    @Autowired
     @Mock
     private ImageConvertingService convertingService;
 
+    @Test
+    public  void UserCrudServiceTest() throws Exception{
+        mockMvc.perform(get("/userCrudOperations/getListOfMagers?pageNumber=0")).andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void productsCrudServiceTest() throws Exception {
+        mockMvc.perform(get("/productsCrudOperations/getListOfProducts?pageNumber=1")).andDo(print())
+                .andExpect(status().isOk());
+    }
 
     @Test
     public  void test() throws Exception {

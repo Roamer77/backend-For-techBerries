@@ -26,6 +26,13 @@ public class Images {
     public Images() {
     }
 
+    public Images(String smallSizeImage, String bigSizeImage1, String bigSizeImage2, String bigSizeImage3) {
+        this.smallSizeImage = smallSizeImage;
+        this.bigSizeImage1 = bigSizeImage1;
+        this.bigSizeImage2 = bigSizeImage2;
+        this.bigSizeImage3 = bigSizeImage3;
+    }
+
     public Images(String smallSizeImage, String middleSizeImage) {
         this.smallSizeImage = smallSizeImage;
         this.middleSizeImage = middleSizeImage;

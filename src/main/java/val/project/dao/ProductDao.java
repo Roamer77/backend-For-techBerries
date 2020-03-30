@@ -13,7 +13,7 @@ public interface ProductDao extends JpaRepository<Product, Long> {
 
     Product findAllById(long id);
 
-    Product findAllByName(String productName);
+    List<Product> findAllByName(String productName);
 
     @Query("select p from Product p where p.name= :productName")
     Product myFindProductByName(@Param("productName") String productName);

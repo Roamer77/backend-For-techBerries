@@ -50,6 +50,7 @@ public class PayPalClient {
             String redirectUrl = "";
             APIContext context = new APIContext(clientID, clientSecret, "sandbox");
             createdPayment = payment.create(context);
+
             if(createdPayment!=null){
                 List<Links> links = createdPayment.getLinks();
                 for (Links link:links) {

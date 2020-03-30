@@ -2,10 +2,13 @@ package val.project.DTO;
 
 public class ProductFroGridViewToClient {
     private String name;
-    private String cost;
+    private int cost;
     private String image;
 
-    public ProductFroGridViewToClient(String name, String cost, String image) {
+    public ProductFroGridViewToClient() {
+    }
+
+    public ProductFroGridViewToClient(String name, int cost, String image) {
         this.name = name;
         this.cost = cost;
         this.image = image;
@@ -19,11 +22,11 @@ public class ProductFroGridViewToClient {
         this.name = name;
     }
 
-    public String getCost() {
+    public int getCost() {
         return cost;
     }
 
-    public void setCost(String cost) {
+    public void setCost(int cost) {
         this.cost = cost;
     }
 

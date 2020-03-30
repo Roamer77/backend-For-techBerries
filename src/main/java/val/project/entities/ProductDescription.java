@@ -14,17 +14,15 @@ public class ProductDescription {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private long id;
 
     private String soleMaterial;
     private String soleHeight;
     private String sex;
-
     private String season;
 
-
     @OneToMany (mappedBy = "productDescription",cascade = CascadeType.DETACH)
-   // @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JsonBackReference
     private List<Product> product;
 

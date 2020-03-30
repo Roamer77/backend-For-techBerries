@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import val.project.DTO.AdvertisingToClient;
+import val.project.DTO.ProductFroGridViewToClient;
 import val.project.dao.AdvertisingDAO;
 import val.project.dao.ImageDao;
 import val.project.dao.ProductCategoriesDao;
@@ -15,6 +16,7 @@ import val.project.entities.ProductCategories;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -39,6 +41,11 @@ public class ImageConvertingService {
     AdvertisingDAO advertisingDao;
 
     private Product product;
+
+    private ByteArrayInputStream inputStream;
+
+    private BufferedImage decodeImage;
+
 
     private final String fileFolder = "resources/";
 
@@ -123,10 +130,10 @@ public class ImageConvertingService {
         for (int i = 0; i < images.size(); i++) {
            /* advertisingToClient.setId(images.get(i).getId());
             advertisingToClient.setAdvImage(convertImageToBase64String(images.get(i).getImageName()));*/
-            res.add(new AdvertisingToClient(images.get(i).getId(),convertImageToBase64String(images.get(i).getImageName()) ) );
+            res.add(new AdvertisingToClient(images.get(i).getId(), convertImageToBase64String(images.get(i).getImageName())));
 
         }
-        System.out.println("reclamme"+res.toString());
+        System.out.println("reclamme" + res.toString());
         return res;
     }
 
@@ -140,14 +147,19 @@ public class ImageConvertingService {
         return data;
     }
 
-    private Map<String, String> makeSmallImagesByCategoryAndSex(String sex,Long categotyId){
+    private List<ProductFroGridViewToClient> makeSmallImagesByCategoryAndSex(String sex, Long categotyId) {
         Map<String, String> res = new HashMap<>();
-        List<Product> images = productDao.customfindAll(sex,categotyId);
+        List<Product> images = productDao.customfindAll(sex, categotyId);
+        List<ProductFroGridViewToClient> resultData = new ArrayList<>();
 
         for (int i = 0; i < images.size(); i++) {
-            res.put(images.get(i).getName(), convertImageToBase64String(images.get(i).getImages().getSmallSizeImage()));
+            ProductFroGridViewToClient tmpProd = new ProductFroGridViewToClient();
+            tmpProd.setName(images.get(i).getName());
+            tmpProd.setCost(images.get(i).getCost());
+            tmpProd.setImage(convertImageToBase64String(images.get(i).getImages().getSmallSizeImage()));
+            resultData.add(tmpProd);
         }
-        return res;
+        return resultData;
     }
 
     public Map<String, String> getListOfBigImages() {
@@ -163,8 +175,8 @@ public class ImageConvertingService {
         return convertListOfBigSizeImagesInBase64(getAllSmallImagesURLs(productCategory), "small");
     }
 
-    public  Map<String, String> getSmallImagesByCategoryAndSex(String sex,Long categotyId){
-         return makeSmallImagesByCategoryAndSex(sex,categotyId);
+    public List<ProductFroGridViewToClient> getSmallImagesByCategoryAndSex(String sex, Long categotyId) {
+        return makeSmallImagesByCategoryAndSex(sex, categotyId);
     }
 
     //тестовый
@@ -190,5 +202,37 @@ public class ImageConvertingService {
         String uri = res.toString().replace("\\", "\\\\");
         System.out.println(uri);
         return uri;
+    }
+
+    public String createImageFromBase64(String data, String imgName,int imgNumber, boolean bigOrSmall) {
+
+        String smallImageName= imgName  + ".1" + "_small" + ".jpg";
+        String bigImageName=imgName  + ".1" + "_big"+imgNumber+ ".jpg";
+
+        File smallImage = new File("C:\\Users\\Valiantsin.Vorykhau\\IdeaProjects\\techBarries\\resources\\" + imgName  + ".1" + "_small" + ".jpg");
+        File bigImage = new File("C:\\Users\\Valiantsin.Vorykhau\\IdeaProjects\\techBarries\\resources\\" + imgName  + ".1" + "_big"+imgNumber+ ".jpg");
+
+        try {
+                byte[] decodeImageByts = Base64.getDecoder().decode(data);
+                inputStream = new ByteArrayInputStream(decodeImageByts);
+                decodeImage = ImageIO.read(inputStream);
+
+                if(bigOrSmall){
+                    writeImage(smallImage);
+                    return smallImage.getName();
+                }else {
+                    writeImage(bigImage);
+                    return bigImage.getName();
+                }
+
+        } catch (IOException e) {
+            logger.warning("Ошибка при создании картинки из Base64" + " в классе ImageConvertingService в методе crateImageFromBase64 207 строка ");
+        }
+        return null;
+    }
+    private void writeImage(File file) throws IOException {
+        ImageIO.write(decodeImage, "jpg", file);
+        decodeImage.flush();
+        inputStream.close();
     }
 }

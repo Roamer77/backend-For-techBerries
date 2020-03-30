@@ -23,20 +23,20 @@ public class Product {
     private String name;
     private  int cost;
 
-    @ManyToOne (optional = false,fetch = FetchType.EAGER)
+    @ManyToOne (optional = false,fetch = FetchType.EAGER,cascade=CascadeType.PERSIST)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JsonManagedReference
     private ProductDescription productDescription;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @JsonManagedReference
+    @ManyToMany(fetch = FetchType.EAGER,cascade=CascadeType.PERSIST)
+  /*  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonManagedReference*/
     private List<Brand> brands=new ArrayList<>();
 
     private int averageRating;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @OneToMany(fetch = FetchType.LAZY,cascade=CascadeType.PERSIST)
+  /*  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})*/
     private List<ProductSize> productSizes;
 
     private String vendorCode;

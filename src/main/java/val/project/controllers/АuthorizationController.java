@@ -18,12 +18,7 @@ import java.util.Collection;
 @RequestMapping("/autharization")
 public class АuthorizationController {
 
-    /* @PostMapping ("/auth")
-     public int getUserAuthInfo(@RequestBody String data){
-         System.out.println("Данные для авторизации пользователя :"+data);
-         //если пользователь авторизован отправить ему нужный куд. Потом определить какой
-         return 666;
-     }*/
+
     private Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
     @GetMapping("/logoutSuccess")

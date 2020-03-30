@@ -17,6 +17,7 @@ public class UserOrder {
     private String TypeOfPayment;
     private Integer fullPrice;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Accounts account;
 
